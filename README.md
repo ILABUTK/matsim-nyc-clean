@@ -40,7 +40,7 @@
 
 ## Hardware requirement
 
-At least 16GB RAM recommended. This simulation creates a large number of network-wide time-variant change events (approximately 262,000 links times 6 time bins), which is memory-intensive independent of population size. An 8GB machine was insufficient for this step during testing.
+At least 16GB RAM recommended. This simulation creates a large number of network-wide time-variant change events (approximately 262,000 links times 6 time bins), which is memory-intensive independent of population size. 
 
 ## Opening the project
 
