@@ -163,15 +163,23 @@ clean mode-share and score-convergence line charts.
 - `hourly_loading.png` — total link-entry events by hour of day, i.e. when
   the network is busiest
 
-All outputs land in `analysis/output/` (gitignore that directory too if you
-don't want generated figures in version control — it isn't currently
-ignored, so check before committing).
+All outputs land in `analysis/output/`, which is gitignored (matched by the
+repo-wide `output/` rule) — generated figures never end up in version
+control.
 
 **Viewing the interactive map over SSH**: since this runs on a headless
-server, `link_volume_map.html` is just a static HTML file — open it through
-VS Code's file explorer (Remote-SSH will render it), or serve the folder
-(`python3 -m http.server --directory analysis/output 8000`) and let VS Code
-auto-forward port 8000 to your local browser.
+server, `link_volume_map.html` is just a static HTML file. Serve the folder
+and let VS Code's Remote-SSH auto-forward the port to your local browser
+(check the **Ports** tab, or click the notification it pops up):
+
+```bash
+npx --yes serve analysis/output -l 8000
+```
+
+If your shell's `python3` isn't on `PATH`, `npx serve` is the more reliable
+option here since Node is already a project dependency (used for nothing
+else, but it's there). `python3 -m http.server --directory analysis/output
+8000` works too if `python3` resolves in your shell.
 
 ### Compute notes for this machine
 

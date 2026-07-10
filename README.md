@@ -1,5 +1,15 @@
 # MATSim NYC — Cleaned Project
 
+A MATSim (Multi-Agent Transport Simulation) scenario for New York City:
+real road network, transit schedule, a calibrated travel-demand population,
+congestion pricing, and a time-of-day-variant road network.
+
+**New to MATSim or this repo?** Start with
+[docs/tutorial.md](docs/tutorial.md) — it covers MATSim's core concepts from
+scratch and walks through this project specifically. The rest of
+[docs/](docs/README.md) goes deeper on architecture, the simulation model,
+and input data.
+
 ## Setup
 
 ### macOS
@@ -38,6 +48,13 @@
 3. Install Git LFS from https://git-lfs.com, then run: git lfs install
 4. Install IntelliJ IDEA from https://www.jetbrains.com/idea/download
 
+### Linux, without root/apt access
+
+If you're on a headless Linux server (e.g. a remote SSH dev box) where you
+can't `sudo apt-get install`, see
+[docs/local-toolchain.md](docs/local-toolchain.md) for getting Java 8,
+Maven, and Git LFS running as self-contained user-local installs.
+
 ## Hardware requirement
 
 At least 16GB RAM recommended. This simulation creates a large number of network-wide time-variant change events (approximately 262,000 links times 6 time bins), which is memory-intensive independent of population size. 
@@ -70,6 +87,24 @@ Edit Run Configuration for RunTimeDependentNetworkExample:
     mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
     java -Xmx6g -cp "target/classes:\$(cat cp.txt)" org.matsim.codeexamples.network.timeDependentNetwork.RunTimeDependentNetworkExample input/config-with-mode-vehicles.xml
 
+Each run writes to `output/<outputDirectory>/` (set in the config's
+`controler` module); that folder is gitignored.
+
+## Analyzing results
+
+Raw MATSim output (events/network XML, tab-separated stats) isn't very
+readable on its own. The `analysis/` directory is a small
+[uv](https://docs.astral.sh/uv/)-managed Python project that turns a run's
+output into a GIS link-volume map (static PNG + interactive HTML) and
+mode-share/score-convergence charts:
+
+    uv run --project analysis analysis/link_volumes.py       output/bqx-8mph-newparams
+    uv run --project analysis analysis/convergence_charts.py output/bqx-8mph-newparams
+
+See [docs/tutorial.md](docs/tutorial.md#turning-output-into-figures-and-maps)
+for details, including how to view the interactive map when running on a
+headless server over SSH.
+
 ## Input files
 
 - config-with-mode-vehicles.xml — main config
@@ -79,6 +114,8 @@ Edit Run Configuration for RunTimeDependentNetworkExample:
 - BQX-separated-network.xml and BQX-separated-schedule.xml — Brooklyn-Queens Connector variants (not currently used)
 - pricing-1.xml ($9.16 peak toll) and pricing-2.xml ($14 peak toll) — road pricing scenarios; config currently points to pricing-1.xml
 - count.xml, vehicle_type.xml, separated-vehicle.xml, final_subpopulation.xml — supporting data
+
+See [docs/data-inputs.md](docs/data-inputs.md) for file sizes and more detail.
 
 ## Known open items
 
