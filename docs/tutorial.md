@@ -199,9 +199,24 @@ Java 8 / Maven / Git LFS toolchain from scratch without root access.
 
 ### Suggested next steps
 
-- Run the full population (`final_population.xml`) with more iterations to
-  get a converged, publication-worthy result — the 100-person/3-iteration
-  run in this repo right now is a smoke test, not a result.
+- Run a bigger sample with more iterations to get a converged,
+  publication-worthy result — the 100-person/3-iteration run in this repo
+  right now is a smoke test, not a result. `scripts/run_3893.sh` runs a
+  ~1/100 sample (3,893 people, drawn with `analysis/sample_population.py`)
+  for 100 iterations, which is enough for the `strategy` module's
+  `fractionOfIterationsToDisableInnovation=0.8` to actually kick in and let
+  scores stabilize in the last ~20 iterations. Note that `qsim`'s
+  `flowCapacityFactor`/`storageCapacityFactor` and the `counts` module's
+  `countsScaleFactor` were calibrated for a specific sample fraction by the
+  original project team — they're *not* automatically consistent with a new
+  1/100 subset, so treat mode-share/convergence results as informative but
+  don't expect `counts` comparisons to line up with real-world counts
+  without recalibrating that scale factor.
+- Or go all the way to the full population (`final_population.xml`, 389,301
+  people) once you're ready for a real production run — expect a much
+  longer runtime and heavier `output/` (raise `-Xmx` and
+  `qsim`/`global.numberOfThreads` accordingly; this server has 128 cores,
+  up to 64 usable).
 - Compare `pricing-1.xml` vs `pricing-2.xml` (different peak toll amounts)
   by pointing `roadpricing.tollLinksFile` at each and diffing the resulting
   mode share / link volumes.
