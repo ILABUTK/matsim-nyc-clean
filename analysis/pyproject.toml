@@ -1,0 +1,18 @@
+[project]
+name = "matsim-nyc-analysis"
+version = "0.1.0"
+description = "Post-processing scripts for MATSim NYC output: GIS link-volume maps and convergence charts"
+requires-python = ">=3.10"
+dependencies = [
+    "geopandas>=1.0",
+    "shapely>=2.0",
+    "pyproj>=3.6",
+    "lxml>=5.0",
+    "folium>=0.16",
+    "mapclassify>=2.6",
+    "pandas>=2.0",
+    "matplotlib>=3.8",
+]
+
+[tool.uv]
+package = false

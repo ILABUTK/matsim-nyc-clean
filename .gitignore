@@ -4,3 +4,5 @@ target/
 *.iml
 output/
 cp.txt
+__pycache__/
+*.pyc
