@@ -22,6 +22,13 @@ src/main/java/org/matsim/codeexamples/
 └── scoring/example16customscoring/           # custom scoring functions and events
 ```
 
+`analysis/` is a separate, [uv](https://docs.astral.sh/uv/)-managed Python
+project (its own `pyproject.toml`/`uv.lock`) for post-processing MATSim
+output into GIS maps and charts — see
+[tutorial.md](tutorial.md#turning-output-into-figures-and-maps). It's
+independent of the Maven build; nothing under `analysis/` is needed to
+build or run the Java simulation.
+
 There is a single Maven module (no multi-module build). `mvn clean install`
 produces two jars in `target/`:
 - `matsim-code-examples-0.0.1-SNAPSHOT.jar` — just this project's classes
